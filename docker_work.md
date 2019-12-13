@@ -42,6 +42,7 @@ docker-compose --version
 
 ### Основные команды
 
+```
 docker-compose ps
 docker-compose run service bash
 
@@ -73,12 +74,14 @@ docker-compose ps
 #если Container not Found а нужно запустить npm или yarn
 docker-compose run frontend_service bash
 yarn install
+```
 
-----------------------------------------------------------------------------------------------
+```
 docker-compose exec postgres_service bash
 psql -U postgres
+```
 
-----------------------------------------------------------------------------------------------
+```
 Все команды выполняются в корневой директории (project, там где лежит файл docker-compose.yml)
 Запуск (первый раз) все сервисы: docker-compose up -d
 Запуск (после остановки) все сервисы: docker-compose start
@@ -86,21 +89,26 @@ psql -U postgres
 Остановить один конкретный сервис: docker-compose stop <имя-сервиса>
 Запустить один конкретный сервис: docker-compose start <имя-сервиса>
 <имя сервиса> - это одно из: server|admin|db|client (все это можно найти в docker-compose.yml файле).
+```
 
 #### Если поменялось имя пользователя в postgres в docker-compose.yml
 
+```
 #удалить volume
 docker volume ls
 docker volume rm service_db-data
 docker-compose up -d # создаст новый volume
+```
 
 #### js front end
+```
 npm install
-если нет прав - проверить ls -la, сравнить c id -u и если разные значения, в docker-compose прописать:
+# если нет прав - проверить ls -la, сравнить c id -u и если разные значения, в docker-compose прописать:
 build:
   args:
     - UID=то число, что выдало ls -la
     - GID=тоже самое число (группа)
+```
     
 #### docker-compose.override.yml
 
@@ -108,18 +116,26 @@ build:
 Полезно, если на тестовом и на проде разные настройки
 
 #### после выкатки изменений на фронтенд в прод
+```
 docker-compose exec frontend bash
 yarn run build # установить зависимости на проде
+```
 
-если ошибки при --build
+```
+# если ошибки при --build
 docker-compose run frontend yarn
-потом попробовать
+# потом попробовать
 docker-compose up -d --build
+```
 
-если всё время Exit напротив frontend, попробовать:
+```
+# если всё время Exit напротив frontend, попробовать:
 docker-compose run frontend bash
 yarn
+```
 
 #### Cкопировать файл из контейнера
 
+```
 docker cp db_service:/db_dump.dump ~/db_dump.dump
+```
